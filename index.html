@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Very Happy Birthday to Devesh!</title>
+    <!-- Tailwind CSS CDN for modern utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use a beautiful, modern font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+
+        /* Custom Styles for a sophisticated look */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1f2937, #111827); /* Dark, subtle gradient */
+            color: #e5e7eb;
+            overflow-x: hidden; /* Hide horizontal scrollbars */
+        }
+
+        /* Particle effect background */
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-fly linear infinite;
+        }
+
+        @keyframes particle-fly {
+            0% { transform: scale(0) translateY(0); opacity: 0; }
+            5% { opacity: 1; }
+            100% { transform: scale(1) translateY(-150vh); opacity: 0; }
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: fixed;
+            z-index: 1000;
+            opacity: 0;
+            animation: confetti-drop ease-out forwards;
+        }
+
+        @keyframes confetti-drop {
+            0% { opacity: 0; transform: translateY(-100vh) rotate(0deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(720deg); }
+        }
+
+        /* Hero text animation */
+        #hero-text {
+            animation: scale-in 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        @keyframes scale-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Message reveal animation */
+        #birthday-message-container {
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        #birthday-message-container.revealed {
+            transform: scale(1);
+            opacity: 1;
+        }
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll surprise animation */
+        .scroll-surprise-item {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        .scroll-surprise-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Keyframes for crackers */
+        @keyframes burst-cracker {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .cracker {
+            animation: burst-cracker 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+        }
+
+        .cracker-1 { animation-delay: 0.2s; }
+        .cracker-2 { animation-delay: 0.4s; }
+        .cracker-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen p-6 overflow-y-auto">
+
+    <!-- Particle Background Container -->
+    <div id="particle-container"></div>
+
+    <!-- Main Content Container -->
+    <div class="w-full max-w-5xl bg-gray-800 bg-opacity-70 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-700 p-8 md:p-16 text-center space-y-12 animate-scale-in">
+        
+        <!-- Animated Hero Heading -->
+        <h1 id="hero-text" class="text-4xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg leading-tight">
+            Happy Birthday, Devesh!
+        </h1>
+
+        <!-- Countdown Timer -->
+        <div class="w-full">
+            <h2 class="text-xl md:text-3xl font-semibold mb-6 text-gray-300">
+                The Celebration Awaits!
+            </h2>
+            <div id="countdown" class="flex flex-wrap justify-center items-center space-x-2 md:space-x-8 text-3xl md:text-6xl font-extrabold">
+                <div class="flex flex-col items-center p-4 bg-gray-900 bg-opacity-50 rounded-2xl shadow-inner border border-gray-700">
+                    <span id="days">00</span>
+                    <span class="text-xs md:text-sm font-light uppercase mt-2 text-gray-400">Days</span>
+                </div>
+                <span class="text-gray-500 text-3xl">:</span>
+                <div class="flex flex-col items-center p-4 bg-gray-900 bg-opacity-50 rounded-2xl shadow-inner border border-gray-700">
+                    <span id="hours">00</span>
+                    <span class="text-xs md:text-sm font-light uppercase mt-2 text-gray-400">Hours</span>
+                </div>
+                <span class="text-gray-500 text-3xl">:</span>
+                <div class="flex flex-col items-center p-4 bg-gray-900 bg-opacity-50 rounded-2xl shadow-inner border border-gray-700">
+                    <span id="minutes">00</span>
+                    <span class="text-xs md:text-sm font-light uppercase mt-2 text-gray-400">Minutes</span>
+                </div>
+                <span class="text-gray-500 text-3xl">:</span>
+                <div class="flex flex-col items-center p-4 bg-gray-900 bg-opacity-50 rounded-2xl shadow-inner border border-gray-700">
+                    <span id="seconds">00</span>
+                    <span class="text-xs md:text-sm font-light uppercase mt-2 text-gray-400">Seconds</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Message Section -->
+        <div id="message-area" class="w-full max-w-3xl">
+            <button id="reveal-button" class="w-full md:w-auto px-10 py-4 font-bold text-xl rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 bg-gradient-to-r from-purple-500 to-pink-500 text-white animate-bounce-slow">
+                Click to Open Your Birthday Message!
+            </button>
+
+            <div id="birthday-message-container" class="mt-8 p-6 md:p-10 bg-gray-900 bg-opacity-50 rounded-3xl shadow-xl border border-gray-700 text-lg leading-relaxed text-gray-300">
+                <p id="birthday-message">
+                    Happy Birthday, my dear friend Devesh! I hope this special day brings you all the happiness and joy you deserve. You're an incredible person, and I'm so lucky to have you in my life. Here's to another year of amazing memories, exciting adventures, and shared laughter. May your year ahead be even better than the last.
+                </p>
+                <p class="mt-4 font-semibold text-gray-200">
+                    Wishing you the best always, from your friend.
+                </p>
+            </div>
+        </div>
+        
+        <div class="w-full max-w-3xl">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 mt-8">✨ Generate a Custom Message ✨</h3>
+            <textarea id="message-prompt" class="w-full p-4 rounded-lg bg-gray-700 text-white placeholder-gray-400" rows="3" placeholder="Enter keywords for your message (e.g., 'funny, memorable moments, inside jokes')."></textarea>
+            <button id="generate-message-btn" class="mt-4 px-6 py-3 font-bold rounded-full bg-blue-500 hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2">
+                <span id="generate-message-text">Generate Message</span>
+                <div id="generate-message-spinner" class="hidden spinner"></div>
+            </button>
+            <button id="tts-btn" class="mt-4 px-6 py-3 font-bold rounded-full bg-green-500 hover:bg-green-600 transition-colors duration-300 flex items-center justify-center space-x-2">
+                <span id="tts-text">Listen to the Message</span>
+                <div id="tts-spinner" class="hidden spinner"></div>
+            </button>
+        </div>
+
+        <!-- AI Image Generation Section -->
+        <div class="w-full max-w-3xl">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 mt-8">✨ Generate a Custom Image ✨</h3>
+            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                <input type="text" id="image-prompt" class="w-full p-4 rounded-lg bg-gray-700 text-white placeholder-gray-400" placeholder="A futuristic birthday cake with neon lights and flying cars.">
+                <button id="generate-image-btn" class="w-full md:w-auto px-6 py-3 font-bold rounded-full bg-blue-500 hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <span id="generate-image-text">Generate Image</span>
+                    <div id="generate-image-spinner" class="hidden spinner"></div>
+                </button>
+            </div>
+            <div id="image-gallery-placeholder" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Generated images will appear here -->
+            </div>
+        </div>
+
+        <!-- Scroll-triggered Surprise Section (initially hidden) -->
+        <div id="scroll-surprise-section" class="flex flex-col items-center space-y-8 mt-20 hidden">
+            <!-- Cake -->
+            <div class="scroll-surprise-item transform translate-y-20">
+                <div class="text-[150px] md:text-[200px] leading-none drop-shadow-lg">🎂</div>
+            </div>
+            <!-- Crackers -->
+            <div class="flex space-x-8">
+                <div class="text-[50px] md:text-[80px] leading-none scroll-surprise-item cracker cracker-1">🎉</div>
+                <div class="text-[50px] md:text-[80px] leading-none scroll-surprise-item cracker cracker-2">🥳</div>
+                <div class="text-[50px] md:text-[80px] leading-none scroll-surprise-item cracker cracker-3">🎁</div>
+            </div>
+        </div>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+             <br>
+        <!-- Image Gallery Section -->
+        <div id="image-gallery-section" class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 hidden">
+            <!-- Replace these with your own images. -->
+                       
+            <div class="w-full aspect-square rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                <img src="1.png" alt="Devesh photo 1" class="w-full h-full object-cover">
+            </div>
+            <div class="w-full aspect-square rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                <img src="2.png" alt="Devesh photo 2" class="w-full h-full object-cover">
+            </div>
+            <div class="w-full aspect-square rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                <img src="3.png" alt="Devesh photo 3" class="w-full h-full object-cover">
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- JavaScript for dynamic functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const birthdayDate = new Date("September 22, 2025 00:00:00").getTime();
+            
+            const countdownElement = document.getElementById("countdown");
+            const messageContainer = document.getElementById("birthday-message-container");
+            const revealButton = document.getElementById("reveal-button");
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+
+            // Gemini API elements
+            const messagePromptEl = document.getElementById("message-prompt");
+            const generateMessageBtn = document.getElementById("generate-message-btn");
+            const generateMessageText = document.getElementById("generate-message-text");
+            const generateMessageSpinner = document.getElementById("generate-message-spinner");
+            const birthdayMessageEl = document.getElementById("birthday-message");
+            const ttsBtn = document.getElementById("tts-btn");
+            const ttsText = document.getElementById("tts-text");
+            const ttsSpinner = document.getElementById("tts-spinner");
+            const imagePromptEl = document.getElementById("image-prompt");
+            const generateImageBtn = document.getElementById("generate-image-btn");
+            const generateImageText = document.getElementById("generate-image-text");
+            const generateImageSpinner = document.getElementById("generate-image-spinner");
+            const imageGalleryPlaceholder = document.getElementById("image-gallery-placeholder");
+            const imageGallerySection = document.getElementById("image-gallery-section");
+            const scrollSurpriseSection = document.getElementById("scroll-surprise-section");
+            const surpriseItems = document.querySelectorAll('.scroll-surprise-item');
+            
+            let audioPlayer = null;
+            let visualSurpriseTriggered = false;
+            let birthdayAudio = null;
+
+            // Utility functions for API calls
+            const showLoading = (btn, textEl, spinnerEl) => {
+                btn.disabled = true;
+                textEl.textContent = 'Generating...';
+                spinnerEl.classList.remove('hidden');
+            };
+
+            const hideLoading = (btn, textEl, spinnerEl, originalText) => {
+                btn.disabled = false;
+                textEl.textContent = originalText;
+                spinnerEl.classList.add('hidden');
+            };
+
+            const createConfetti = () => {
+                const confettiColors = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#00BCD4', '#009688', '#4CAF50', '#FFEB3B', '#FF9800', '#FF5722'];
+                for (let i = 0; i < 200; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    confetti.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                    confetti.style.top = `-${Math.random() * 20}vh`;
+                    document.body.appendChild(confetti);
+                }
+            };
+            
+            const revealMessage = () => {
+                revealButton.style.display = 'none';
+                messageContainer.classList.add('revealed');
+            };
+
+            const triggerVisualSurprise = () => {
+                if (visualSurpriseTriggered) return;
+                visualSurpriseTriggered = true;
+                
+                scrollSurpriseSection.classList.remove('hidden');
+                setTimeout(() => {
+                    surpriseItems.forEach(item => {
+                        item.classList.add('active');
+                    });
+                    
+                    setTimeout(() => {
+                        imageGallerySection.classList.remove('hidden');
+                    }, 1000);
+                }, 100);
+            };
+
+            // Countdown timer logic
+            const countdownTimer = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = birthdayDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownTimer);
+                    countdownElement.innerHTML = `<span class="text-3xl md:text-6xl font-extrabold text-blue-400 drop-shadow-lg">🎉 HAPPY BIRTHDAY! 🎉</span>`;
+                    revealMessage();
+                    createConfetti();
+                } else {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    daysEl.innerHTML = String(days).padStart(2, '0');
+                    hoursEl.innerHTML = String(hours).padStart(2, '0');
+                    minutesEl.innerHTML = String(minutes).padStart(2, '0');
+                    secondsEl.innerHTML = String(seconds).padStart(2, '0');
+                }
+            }, 1000);
+
+            // Button click listener to reveal the message and play audio
+            revealButton.addEventListener('click', async () => {
+                revealMessage();
+                if (birthdayAudio) {
+                    birthdayAudio.play();
+                }
+            });
+            
+            // Particle effect
+            const particleContainer = document.getElementById("particle-container");
+            const createParticle = () => {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particleContainer.appendChild(particle);
+                setTimeout(() => particle.remove(), 25000);
+            };
+            setInterval(createParticle, 100);
+
+            // --- Gemini API Functionality ---
+
+            // Gemini Message Generation
+            generateMessageBtn.addEventListener('click', async () => {
+                const userPrompt = messagePromptEl.value;
+                if (!userPrompt) return;
+
+                showLoading(generateMessageBtn, generateMessageText, generateMessageSpinner);
+
+                try {
+                    const prompt = `Write a short, heartfelt and celebratory birthday message for my friend Devesh. The message should be based on these keywords and themes: ${userPrompt}. The tone should be positive and personal.`;
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    const generatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    
+                    if (generatedText) {
+                        birthdayMessageEl.textContent = generatedText;
+                    }
+                } catch (error) {
+                    console.error("Error generating message:", error);
+                    birthdayMessageEl.textContent = "Sorry, something went wrong. Please try again.";
+                } finally {
+                    hideLoading(generateMessageBtn, generateMessageText, generateMessageSpinner, "Generate Message");
+                }
+            });
+
+            // Gemini TTS Functionality
+            const generateAndCacheBirthdayAudio = async () => {
+                const messageToRead = "Happy birthday to you, Devesh!";
+                
+                try {
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: messageToRead }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: { voiceName: "Puck" }
+                                }
+                            }
+                        },
+                    };
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const pcm16 = new Int16Array(pcmData);
+                        const wavBlob = pcmToWav(pcm16, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        birthdayAudio = new Audio(audioUrl);
+                    }
+                } catch (error) {
+                    console.error("Error generating birthday audio:", error);
+                }
+            };
+            
+            ttsBtn.addEventListener('click', () => {
+                if (audioPlayer) {
+                    audioPlayer.pause();
+                    audioPlayer.currentTime = 0;
+                }
+                const messageToRead = birthdayMessageEl.textContent;
+                if (!messageToRead) return;
+
+                showLoading(ttsBtn, ttsText, ttsSpinner);
+
+                (async () => {
+                    try {
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+    
+                        const payload = {
+                            contents: [{ parts: [{ text: messageToRead }] }],
+                            generationConfig: {
+                                responseModalities: ["AUDIO"],
+                                speechConfig: {
+                                    voiceConfig: {
+                                        prebuiltVoiceConfig: { voiceName: "Puck" }
+                                    }
+                                }
+                            },
+                        };
+                        
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+                        const part = result?.candidates?.[0]?.content?.parts?.[0];
+                        const audioData = part?.inlineData?.data;
+                        const mimeType = part?.inlineData?.mimeType;
+    
+                        if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                            const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                            const pcmData = base64ToArrayBuffer(audioData);
+                            const pcm16 = new Int16Array(pcmData);
+                            const wavBlob = pcmToWav(pcm16, sampleRate);
+                            const audioUrl = URL.createObjectURL(wavBlob);
+                            
+                            audioPlayer = new Audio(audioUrl);
+                            audioPlayer.play();
+                        }
+                    } catch (error) {
+                        console.error("Error generating or playing audio:", error);
+                    } finally {
+                        hideLoading(ttsBtn, ttsText, ttsSpinner, "Listen to the Message");
+                    }
+                })();
+            });
+
+            function base64ToArrayBuffer(base64) {
+                const binaryString = atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+
+            function pcmToWav(pcmData, sampleRate) {
+                const numChannels = 1;
+                const bitsPerSample = 16;
+                const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+                const blockAlign = numChannels * (bitsPerSample / 8);
+                const dataSize = pcmData.byteLength;
+                
+                const buffer = new ArrayBuffer(44 + dataSize);
+                const view = new DataView(buffer);
+
+                // RIFF header
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataSize, true);
+                writeString(view, 8, 'WAVE');
+
+                // fmt chunk
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true); // PCM format
+                view.setUint16(22, numChannels, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, byteRate, true);
+                view.setUint16(32, blockAlign, true);
+                view.setUint16(34, bitsPerSample, true);
+
+                // data chunk
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataSize, true);
+                
+                const pcmView = new Int16Array(buffer, 44);
+                pcmView.set(pcmData);
+                
+                return new Blob([view], { type: 'audio/wav' });
+            }
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+
+            // Gemini Image Generation
+            generateImageBtn.addEventListener('click', async () => {
+                const imagePrompt = imagePromptEl.value;
+                if (!imagePrompt) return;
+
+                showLoading(generateImageBtn, generateImageText, generateImageSpinner);
+
+                try {
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                    const payload = {
+                        instances: [{ prompt: imagePrompt }],
+                        parameters: { sampleCount: 1 }
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    const base64Data = result?.predictions?.[0]?.bytesBase64Encoded;
+                    
+                    if (base64Data) {
+                        const imageUrl = `data:image/png;base64,${base64Data}`;
+                        const imageHtml = `
+                            <div class="w-full aspect-square rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-300 hover:scale-105">
+                                <img src="${imageUrl}" alt="Generated Image" class="w-full h-full object-cover">
+                            </div>
+                        `;
+                        imageGalleryPlaceholder.innerHTML = imageHtml;
+                    }
+                } catch (error) {
+                    console.error("Error generating image:", error);
+                    imageGalleryPlaceholder.innerHTML = `<p class="text-red-400 text-center">Failed to generate image. Please try a different prompt.</p>`;
+                } finally {
+                    hideLoading(generateImageBtn, generateImageText, generateImageSpinner, "Generate Image");
+                }
+            });
+
+            // Scroll-triggered visual surprise logic
+            window.addEventListener('scroll', () => {
+                const surpriseSection = document.getElementById("scroll-surprise-section");
+                const rect = surpriseSection.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+
+                if (isVisible) {
+                    triggerVisualSurprise();
+                }
+            });
+
+            // Initial audio generation and visual surprise trigger
+            generateAndCacheBirthdayAudio();
+        });
+    </script>
+</body>
+</html>
