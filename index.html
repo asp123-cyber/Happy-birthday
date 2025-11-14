@@ -1,128 +1,379 @@
-<!-- Updated cute-style birthday page for Kajal, images section removed -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happiest Birthday Dear Kajal 🎀✨</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>🌟 Happiest Birthday Kajal 🎂</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Press+Start+2P&family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+        /* --- CORE SETUP --- */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-            color: #4b5563;
+            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            
+            background-image: url('img/back.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            perspective: 1000px;
         }
-        #hero-text {
-            animation: pop 1s ease-out both;
+
+        #birthday-music { display: none; }
+
+        /* --- Z-INDEX MANAGEMENT --- */
+        .confetti-wrapper { z-index: 10; }
+        .gift-wrapper { z-index: 20; }
+        .star-wrapper { z-index: 30; }
+        .balloon-wrapper { z-index: 40; }
+        .scrollable-message { z-index: 90; }
+        .main-content { z-index: 100; } 
+
+
+        /* --- 1. MAIN CONTENT (SLIDE DOWN & PULSE EFFECT) --- */
+        .main-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            max-width: 900px;
+            padding: 20px;
+            min-height: 90vh; 
+            margin-top: 5vh;
+            
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            
+            transform: translateY(-100vh);
+            animation: slideDown 1.5s ease-out forwards;
         }
-        @keyframes pop {
+
+        @keyframes slideDown {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(0); }
+        }
+
+        /* --- 2. BANNER & CAKE PULSE EFFECT (MORE FREQUENT) --- */
+        .banner-img, .cake-gif {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease-out;
+            animation: pulse 1.5s infinite ease-in-out; /* FASTER PULSE */
+        }
+        .cake-gif {
+            max-width: 250px; 
+            animation: fadeInScale 1.5s ease-out forwards, pulse 1.5s infinite ease-in-out; /* FASTER PULSE */
+            animation-delay: 2s; 
+            opacity: 0;
+            margin-top: 30px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); } /* SLIGHTLY BIGGER PULSE */
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeInScale {
             0% { transform: scale(0.5); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        .bubble {
+        .banner-img:hover, .cake-gif:hover {
+            transform: scale(1.08); /* More noticeable hover */
+            cursor: pointer;
+        }
+
+        /* --- 3. TYPED MESSAGE (3D HOVER TILT) --- */
+        .typing-wrap {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffde00;
+            text-shadow: 3px 3px 6px rgba(189, 29, 29, 0.7);
+            margin-bottom: 30px;
+            min-height: 100px;
+            transition: transform 0.3s ease;
+        }
+        .typing-wrap:hover {
+            transform: rotateY(8deg) rotateX(8deg) scale(1.05); /* More aggressive tilt */
+        }
+        .typed-cursor {
+            font-size: 3rem;
+            color: #ffde00;
+            animation: typedjsBlink 0.7s infinite;
+        }
+        @keyframes typedjsBlink { 50% { opacity: 0.0; } }
+
+        /* --- 4. BALLOON ANIMATIONS (MORE FREQUENT/INTENSE) --- */
+        .balloon-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;
+        }
+        .balloon {
             position: absolute;
-            background: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            animation: floatUp linear infinite;
+            width: 80px; height: 100px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: inset -10px -10px 0px rgba(0,0,0,0.15);
+            animation: float 15s infinite ease-in-out; /* FASTER FLOAT */
+            opacity: 0.9;
+            background-image: url('img/Balloon-Border.png');
+            background-size: cover; background-blend-mode: overlay;
         }
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-150vh); opacity: 0; }
+        /* Adjusted the main animation */
+        @keyframes float {
+            0% { top: 110vh; opacity: 0; transform: translateX(0px) scale(0.8) rotate(0deg); }
+            5% { opacity: 1; }
+            50% { transform: translateX(80px) scale(1.05) rotate(20deg); } /* WIDER, MORE DRAMATIC SWAY */
+            100% { top: -200px; opacity: 0; transform: translateX(-80px) scale(0.9) rotate(-20deg); }
         }
-        #birthday-message-container {
-            transform: scale(0.9);
+        
+        /* --- 5. FLOATING GIFTS (MORE FREQUENT/INTENSE) --- */
+        .gift-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;
+        }
+        .gift {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #ff4500;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3));
+            background-size: 10px 100%, 100% 10px;
+            background-position: center, center;
+            background-repeat: no-repeat;
             opacity: 0;
-            transition: all .6s ease;
+            animation: giftFloat 12s infinite ease-in-out; /* FASTER GIFT FLOAT */
         }
-        #birthday-message-container.revealed {
-            transform: scale(1);
+        .gift:nth-child(2n) { background-color: #1e90ff; }
+        .gift:nth-child(3n) { background-color: #32cd32; }
+        .gift:nth-child(5) { right: 15%; animation-delay: 2s; } /* ADDED 5th gift */
+        .gift:nth-child(6) { left: 40%; animation-delay: 11s; } /* ADDED 6th gift */
+
+        .gift:nth-child(1) { left: 5%; animation-delay: 1s; }
+        .gift:nth-child(2) { right: 8%; animation-delay: 5s; }
+        .gift:nth-child(3) { left: 50%; animation-delay: 9s; }
+        .gift:nth-child(4) { right: 25%; animation-delay: 13s; }
+
+        @keyframes giftFloat {
+            0% { top: 110vh; opacity: 0; transform: rotate(0deg); }
+            10% { opacity: 0.8; }
+            50% { transform: rotate(180deg); } /* FULL 180 DEGREE ROTATION */
+            100% { top: -100px; opacity: 0; transform: rotate(360deg); } /* FULL 360 DEGREE ROTATION */
+        }
+
+        /* --- 6. CONFETTI EFFECT (DENSER/FASTER RAIN) --- */
+        .confetti-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px; height: 10px;
+            background-color: #ff1493;
+            opacity: 0;
+            border-radius: 50%;
+            animation: confettiFall 3s linear infinite; /* FASTER CONFETTI FALL */
+        }
+        .confetti:nth-child(3n) { background-color: #00ffff; border-radius: 0; }
+        .confetti:nth-child(5n) { background-color: #ffd700; border-radius: 50% 0; }
+
+        /* Added 10 more confetti pieces for much denser effect (now 30 total) */
+        .confetti:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .confetti:nth-child(2) { left: 15%; animation-delay: 0.2s; }
+        .confetti:nth-child(3) { left: 25%; animation-delay: 0.4s; }
+        .confetti:nth-child(4) { left: 35%; animation-delay: 0.6s; }
+        .confetti:nth-child(5) { left: 45%; animation-delay: 0.8s; }
+        .confetti:nth-child(6) { left: 55%; animation-delay: 1s; }
+        .confetti:nth-child(7) { left: 65%; animation-delay: 1.2s; }
+        .confetti:nth-child(8) { left: 75%; animation-delay: 1.4s; }
+        .confetti:nth-child(9) { left: 85%; animation-delay: 1.6s; }
+        .confetti:nth-child(10) { left: 95%; animation-delay: 1.8s; }
+        /* Second Row */
+        .confetti:nth-child(11) { left: 8%; animation-delay: 0.1s; }
+        .confetti:nth-child(12) { left: 18%; animation-delay: 0.3s; }
+        .confetti:nth-child(13) { left: 28%; animation-delay: 0.5s; }
+        .confetti:nth-child(14) { left: 38%; animation-delay: 0.7s; }
+        .confetti:nth-child(15) { left: 48%; animation-delay: 0.9s; }
+        .confetti:nth-child(16) { left: 58%; animation-delay: 1.1s; }
+        .confetti:nth-child(17) { left: 68%; animation-delay: 1.3s; }
+        .confetti:nth-child(18) { left: 78%; animation-delay: 1.5s; }
+        .confetti:nth-child(19) { left: 88%; animation-delay: 1.7s; }
+        .confetti:nth-child(20) { left: 98%; animation-delay: 1.9s; }
+        /* Third Row */
+        .confetti:nth-child(21) { left: 3%; animation-delay: 0.15s; }
+        .confetti:nth-child(22) { left: 13%; animation-delay: 0.35s; }
+        .confetti:nth-child(23) { left: 23%; animation-delay: 0.55s; }
+        .confetti:nth-child(24) { left: 33%; animation-delay: 0.75s; }
+        .confetti:nth-child(25) { left: 43%; animation-delay: 0.95s; }
+        .confetti:nth-child(26) { left: 53%; animation-delay: 1.15s; }
+        .confetti:nth-child(27) { left: 63%; animation-delay: 1.35s; }
+        .confetti:nth-child(28) { left: 73%; animation-delay: 1.55s; }
+        .confetti:nth-child(29) { left: 83%; animation-delay: 1.75s; }
+        .confetti:nth-child(30) { left: 93%; animation-delay: 1.95s; }
+
+        @keyframes confettiFall {
+            0% { top: -10%; opacity: 1; transform: rotate(0deg); }
+            100% { top: 110%; opacity: 0.8; transform: rotate(720deg); }
+        }
+
+        /* --- 7. SCROLLABLE MESSAGE (Pop-in on view) --- */
+        .scrollable-message {
+            width: 90%;
+            max-width: 800px;
+            min-height: 100vh;
+            margin: 50px 0;
+            padding: 40px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.5);
+            
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* FASTER TRANSITION */
+        }
+        .scrollable-message.is-visible {
             opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Message styling remains the same */
+        .scrollable-message h2 { font-family: 'Pacifico', cursive; font-size: 3.5rem; margin-bottom: 25px; text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
+        .scrollable-message p { font-size: 1.5rem; line-height: 1.8; color: #ffffff; font-family: Arial, sans-serif; }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .typing-wrap { font-size: 2rem; }
+            .scrollable-message h2 { font-size: 2.5rem; }
+            .scrollable-message p { font-size: 1.2rem; }
+            .cake-gif { width: 150px; }
+            .balloon { width: 60px; height: 80px; }
+            .gift { width: 40px; height: 40px; }
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-start min-h-screen p-6 overflow-y-auto relative">
+<body>
+    
+    <audio id="birthday-music" autoplay loop>
+        <source src="[URL_TO_A_HAPPY_BIRTHDAY_SONG.mp3]" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-    <!-- Floating bubbles background -->
-    <div id="bubble-container" class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10"></div>
+    <div class="confetti-wrapper">
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+        <div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div><div class="confetti"></div>
+    </div>
 
-    <!-- Main Card -->
-    <div class="w-full max-w-4xl bg-white bg-opacity-70 backdrop-blur-xl rounded-3xl shadow-2xl border border-pink-200 p-8 md:p-14 text-center space-y-12">
+    <div class="gift-wrapper">
+        <div class="gift"></div><div class="gift"></div><div class="gift"></div><div class="gift"></div>
+        <div class="gift"></div><div class="gift"></div>
+    </div>
 
-        <!-- Cute Heading -->
-        <h1 id="hero-text" class="text-4xl md:text-6xl font-extrabold text-pink-600 drop-shadow-xl">
-            🎀 Happy Birthday, Dear Kajal! 🎀
-        </h1>
+    <div class="star-wrapper">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
 
-        <!-- Countdown removed for simplicity -->
+    <div class="balloon-wrapper">
+        <div class="balloon"></div><div class="balloon"></div><div class="balloon"></div><div class="balloon"></div>
+        <div class="balloon"></div><div class="balloon"></div><div class="balloon"></div><div class="balloon"></div>
+    </div>
 
-        <!-- Button + Message -->
-        <div id="message-area" class="w-full max-w-3xl mx-auto">
-            <button id="reveal-button" class="px-10 py-4 font-bold text-xl rounded-full shadow-lg bg-gradient-to-r from-pink-400 to-pink-600 text-white hover:scale-105 transition-transform duration-300">
-                Click to Reveal Your Cute Birthday Message 🎁💗
-            </button>
-
-            <div id="birthday-message-container" class="mt-8 p-8 bg-white bg-opacity-60 rounded-3xl shadow-xl border border-pink-300 text-lg leading-relaxed text-gray-700">
-                <p id="birthday-message" class="font-medium">
-                    Dear Kajal, wishing you the sweetest and happiest birthday! You add sparkle wherever you go and joy to everyone around you. May your year be filled with soft smiles, warm hugs, magical surprises, and everything your heart wishes for. 💕✨
-                </p>
-                <p class="mt-4 font-semibold text-pink-600">Lots of love and best wishes! 🎀</p>
+    <div class="main-content">
+        
+        <img src="img/banner.png" alt="Happy Birthday Banner" class="banner-img">
+        
+        <div class="typing-wrap">
+            <div id="typed-strings">
+                <p>Happiest birthday **Dear Kajal** 😊</p>
+                <p>Wishing you <strong>a wonderful year ahead!</strong> 🥳</p>
+                <p>Hope you enjoy <strong>your special day!</strong> ✨</p>
+            </div>
+            <div class="typing">
+                <span id="typed"></span>
             </div>
         </div>
 
-        <!-- Cute Message Generator -->
-        <div class="w-full max-w-3xl mx-auto">
-            <h3 class="text-xl md:text-2xl font-bold mb-4 text-pink-700">💖 I wish your happiness stays with you longer than the stars stay in the sky.
-
-May your smile last forever… even longer than the universe decides to exist.
-
-I hope joy follows you like a little butterfly that never gets tired.
-
-I wish you a life so sweet that even time stops to admire you.
-
-May every moment of yours be soft, warm, and gentle… like the universe is hugging you.
-
-I hope your heart stays as bright as a million suns — today, tomorrow, and till the end of everything.💖</h3>
-            <textarea id="message-prompt" class="w-full p-4 rounded-xl bg-pink-100 text-gray-700 placeholder-pink-400" rows="3" placeholder="Enter words like 'cute, soft, sweet, memories'..."></textarea>
-            <button id="generate-message-btn" class="mt-4 px-6 py-3 font-bold rounded-full bg-pink-500 hover:bg-pink-600 text-white transition-colors duration-300 flex items-center justify-center space-x-2">
-                <span id="generate-message-text">Generate Cute Message</span>
-                <div id="generate-message-spinner" class="hidden spinner"></div>
-            </button>
-            <button id="tts-btn" class="mt-4 px-6 py-3 font-bold rounded-full bg-purple-500 hover:bg-purple-600 text-white transition duration-300 flex items-center justify-center space-x-2">
-                <span id="tts-text">Listen to Message 💕</span>
-                <div id="tts-spinner" class="hidden spinner"></div>
-            </button>
-        </div>
-
+        <img src="img/cake.gif" alt="Animated Birthday Cake" class="cake-gif">
+        
+        <p style="margin-top: 40px; font-size: 1.5rem; color: #ffffff; text-shadow: 1px 1px 3px #000;">(Scroll Down for a **SPECIAL** Message! 👇)</p>
     </div>
 
-    <!-- JS Minimal (removed image generation + gallery entirely) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const revealButton = document.getElementById("reveal-button");
-            const messageContainer = document.getElementById("birthday-message-container");
+    <div class="scrollable-message">
+        <h2>Message to YOU 💖</h2>
+        <p>
+            Dear Kajal,
+            <br><br>
+            On your birthday, I want to send you the biggest cheer! You are an amazing, brilliant, and kind soul, and I hope this new year of your life brings you everything you’ve ever wished for—and more. 
+            <br><br>
+            Keep shining brightly, keep smiling, and know how much you are appreciated. May your day be filled with laughter, love, and plenty of cake!
+            <br><br>
+            Hope your life stays soft and sparkly forever.
+            Keep smiling… the world looks better when you do! Stay happy, stay blessed, stay you.  best wishes!
+            <br>
+            **Happy Birthday!**
+        </p>
+    </div>
 
-            revealButton.addEventListener('click', () => {
-                revealButton.style.display = 'none';
-                messageContainer.classList.add('revealed');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Typed.js Initialization
+            new Typed('#typed', {
+                stringsElement: '#typed-strings', 
+                typeSpeed: 70,         
+                backSpeed: 50,         
+                startDelay: 2000,
+                loop: true,            
+                cursorChar: '█',       
+                showCursor: true
             });
 
-            // Floating bubbles
-            const bubbleContainer = document.getElementById("bubble-container");
-            function createBubble() {
-                const b = document.createElement('div');
-                const size = Math.random() * 25 + 10;
-                b.classList.add('bubble');
-                b.style.width = size + 'px';
-                b.style.height = size + 'px';
-                b.style.left = Math.random() * 100 + 'vw';
-                b.style.animationDuration = Math.random() * 10 + 8 + 's';
-                bubbleContainer.appendChild(b);
-                setTimeout(() => b.remove(), 18000);
-            }
-            setInterval(createBubble, 250);
+            // Music Autoplay Logic
+            const music = document.getElementById('birthday-music');
+            music.volume = 0.4;
+            music.play().catch(error => {
+                console.log("Autoplay of music failed:", error);
+            });
+
+
+            // INTERSECTION OBSERVER FOR SCROLL MESSAGE ANIMATION
+            const messageElement = document.querySelector('.scrollable-message');
+            
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        messageElement.classList.add('is-visible');
+                        observer.unobserve(messageElement); 
+                    }
+                });
+            }, options);
+
+            observer.observe(messageElement);
         });
     </script>
+
 </body>
 </html>
